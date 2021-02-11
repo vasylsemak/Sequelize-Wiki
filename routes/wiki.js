@@ -4,11 +4,13 @@ module.exports = router
 const addPage = require('../views/addPage')
 const { Page } = require('../models')
 const wikipage = require('../views/wikipage')
+const main = require('../views/main')
 
 router
-  .get('/', (req, res, next) => {
+  .get('/', async(req, res, next) => {
     try {
-      res.send('got to GET /wiki/')
+      const allPages = await Page.findAll()
+      res.send(main(allPages))
     } catch(error) {
       next(error)
     }
