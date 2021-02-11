@@ -3,6 +3,10 @@ const db = new Sequelize('postgres://localhost:5432/wikistack', {
   logging: false
 })
 
+db.authenticate().then(() => {
+  console.log('connected to database')
+})
+
 const Page = db.define('page', {
   title: {
     type: Sequelize.STRING,

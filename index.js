@@ -25,10 +25,8 @@ app.get('/', (req, res, next) => {
 })
 
 // Error handling
-app.use((req, res, next) => {
-  let err = new Error('No such a page on our website!!!')
-  err.status(404)
-  next(err)
+app.use((req, res) => {
+  res.status(404).send('No such a page on our website!!!')
 })
 
 app.use((err, req, res, next) => {
@@ -38,10 +36,6 @@ app.use((err, req, res, next) => {
 
 
 const init = async() => {
-  await db.authenticate()
-    .then(() => {
-      console.log('connected to database')
-    })
   await db.sync()  // {force: true}
 
   app.listen(PORT, () => {
