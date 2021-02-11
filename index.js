@@ -26,7 +26,7 @@ app.get('/', (req, res, next) => {
 
 // Error handling
 app.use((req, res, next) => {
-  const err = new Error('No such a page on our website!!!')
+  let err = new Error('No such a page on our website!!!')
   err.status(404)
   next(err)
 })
