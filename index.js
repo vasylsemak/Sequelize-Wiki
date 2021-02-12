@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 const { db } = require('./models')
 const wikiRoute = require('./routes/wiki')
 const usersRoute = require('./routes/users')
+const notFound = require('./views/notFound')
 
 const app = express()
 app.use(morgan('dev'))
@@ -26,7 +27,7 @@ app.get('/', (req, res, next) => {
 
 // Error handling
 app.use((req, res) => {
-  res.status(404).send('Page has not found!')
+  res.status(404).send(notFound())
 })
 
 app.use((err, req, res, next) => {
