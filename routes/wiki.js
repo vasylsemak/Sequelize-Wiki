@@ -2,7 +2,7 @@ const router = require('express').Router()
 module.exports = router
 
 const addPage = require('../views/addPage')
-const { Page } = require('../models')
+const { Page, User } = require('../models')
 const wikipage = require('../views/wikipage')
 const main = require('../views/main')
 
@@ -18,6 +18,14 @@ router
   .post('/', async(req, res, next) => {
     try {
       const newPage =  await Page.create(req.body)
+      const [ user, wasCreated ] = await User.findOrCreate({
+        where: {
+          name: req.body.name,
+          email: req.body.email
+        }
+      })
+
+      await newPage.setAuthor(user)
       res.redirect(`/wiki/${newPage.slug}`)
     } catch(error) {
       next(error)

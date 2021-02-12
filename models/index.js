@@ -35,11 +35,11 @@ const User = db.define('user', {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
-      unique: true,
       isEmail: true
     }
   }
 })
+
 
 function createSlug(title) {
   return title.replace(/\s+/g, '_').replace(/\W/g, '')
@@ -49,5 +49,8 @@ Page.beforeValidate(page => {
   if(!page.slug) page.slug = createSlug(page.title)
 })
 
+
+Page.belongsTo(User, { as: 'author' })
+User.hasMany(Page)
 
 module.exports = { db , Page, User }
