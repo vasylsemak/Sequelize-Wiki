@@ -7,6 +7,7 @@ const { db } = require('./models')
 const wikiRoute = require('./routes/wiki')
 const usersRoute = require('./routes/users')
 const notFound = require('./views/notFound')
+const serverError = require('./views/serverError')
 
 const app = express()
 app.use(morgan('dev'))
@@ -32,7 +33,7 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err.stack)
-  res.status(err.status || 500).send(err.message || 'Internal server error')
+  res.status(err.status || 500).send(serverError(err))
 })
 
 
