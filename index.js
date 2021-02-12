@@ -3,6 +3,7 @@ const app = express()
 const path = require('path')
 const PORT = 3000
 const morgan = require('morgan')
+const methodOverride = require('method-override')
 
 const layout = require('./views/layout')
 const { db } = require('./models')
@@ -10,6 +11,7 @@ const wikiRoute = require('./routes/wiki')
 const usersRoute = require('./routes/users')
 
 app.use(morgan('dev'))
+app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, "./public")))
 app.use(express.urlencoded({ extended: true }))
 
