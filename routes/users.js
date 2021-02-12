@@ -17,11 +17,9 @@ router.get('/:id', async(req, res, next) => {
     const user = await User.findByPk(req.params.id)
 
     if(!user.id) return res.status(404).send('No user with this name!')
-    else {
-      const pages = await Page.findAll({
-        where: { authorId: user.id }
-      })
-      res.send(userPages(user, pages))
-    }
+    const pages = await Page.findAll({
+      where: { authorId: user.id }
+    })
+    res.send(userPages(user, pages))
   } catch(error) { next(error) }
 })

@@ -1,15 +1,13 @@
 const express = require('express')
-const app = express()
 const path = require('path')
-const PORT = 3000
 const morgan = require('morgan')
 const methodOverride = require('method-override')
 
-const layout = require('./views/layout')
 const { db } = require('./models')
 const wikiRoute = require('./routes/wiki')
 const usersRoute = require('./routes/users')
 
+const app = express()
 app.use(morgan('dev'))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, "./public")))
@@ -28,7 +26,7 @@ app.get('/', (req, res, next) => {
 
 // Error handling
 app.use((req, res) => {
-  res.status(404).send('No such a page on our website!!!')
+  res.status(404).send('Page has not found!')
 })
 
 app.use((err, req, res, next) => {
@@ -39,9 +37,8 @@ app.use((err, req, res, next) => {
 
 const init = async() => {
   await db.sync()  // {force: true}
-
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
+  app.listen(3000, () => {
+    console.log(`Server is running on port 3000`)
   })
 }
 

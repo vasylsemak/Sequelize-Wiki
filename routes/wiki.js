@@ -2,10 +2,7 @@ const router = require('express').Router()
 module.exports = router
 
 const { Page, User, createSlug } = require('../models')
-const addPage = require('../views/addPage')
-const wikipage = require('../views/wikipage')
-const main = require('../views/main')
-const editPage = require('../views/editPage')
+const { addPage, wikiPage, main, editPage } = require("../views")
 
 
 router
@@ -45,7 +42,7 @@ router
 
       if(!page.id) return res.status(404).send('No page found with this title')
       const pageAuthor = await page.getAuthor()
-      res.send(wikipage(page, pageAuthor))
+      res.send(wikiPage(page, pageAuthor))
     } catch(error) { next(error) }
   })
   .put('/:slug', async(req, res, next) => {
