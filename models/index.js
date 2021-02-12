@@ -42,7 +42,10 @@ const User = db.define('user', {
 
 
 function createSlug(title) {
-  return title.replace(/\s+/g, '_').replace(/\W/g, '')
+  return title
+    .replace(/\s+/g, '_')
+    .replace(/\W/g, '')
+    .toLowerCase()
 }
 
 Page.beforeValidate(page => {
@@ -53,4 +56,4 @@ Page.beforeValidate(page => {
 Page.belongsTo(User, { as: 'author' })
 User.hasMany(Page)
 
-module.exports = { db , Page, User }
+module.exports = { db , Page, User, createSlug }

@@ -10,5 +10,7 @@ module.exports = (page, author) => layout(html`
   <div class="page-body">${page.content}</div>
   <hr/>
   <a href="/wiki/${page.slug}/edit" class="btn btn-primary">edit this page</a>
-  <a href="/wiki/${page.slug}/delete" class="btn btn-danger">delete this page</a>
+  <form style="display:inline" method="POST" action="/wiki/${page.slug}?_method=DELETE">
+    <button class="btn btn-danger" type="submit">delete this page</button>
+  </form>
 `);
