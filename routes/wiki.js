@@ -11,9 +11,7 @@ router
     try {
       const allPages = await Page.findAll()
       res.send(main(allPages))
-    } catch(error) {
-      next(error)
-    }
+    } catch(error) { next(error) }
   })
   .post('/', async(req, res, next) => {
     try {
@@ -27,9 +25,7 @@ router
 
       await newPage.setAuthor(user)
       res.redirect(`/wiki/${newPage.slug}`)
-    } catch(error) {
-      next(error)
-    }
+    } catch(error) { next(error) }
   })
 
 router.get('/add', (req, res) => {
@@ -38,11 +34,10 @@ router.get('/add', (req, res) => {
 
 router.get('/:slug', async (req, res, next) => {
   try {
-    const foundPage = await Page.findOne({
+    const page = await Page.findOne({
       where: { slug: req.params.slug }
     })
-    res.send(wikipage(foundPage))
-  } catch(error) {
-    next(error)
-  }
+    const pageAuthor = await page.getAuthor()
+    res.send(wikipage(page, pageAuthor))
+  } catch(error) { next(error) }
 })
