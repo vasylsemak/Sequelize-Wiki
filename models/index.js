@@ -23,6 +23,9 @@ const Page = db.define('page', {
   status: {
     type: Sequelize.ENUM('open', 'closed'),
     defaultValue: 'closed'
+  },
+  tags: {
+    type: Sequelize.ARRAY(Sequelize.STRING)
   }
 })
 
@@ -40,16 +43,23 @@ const User = db.define('user', {
   }
 })
 
-
+// Service f-ns
 function createSlug(title) {
   return title
     .replace(/\s+/g, '_')
     .replace(/\W/g, '')
     .toLowerCase()
 }
+function tagsToArray(str) {
+  return str.replace(/\W/, '').split(/[\s]+/)
+}
 
+// Hooks
 Page.beforeValidate(page => {
   if(!page.slug) page.slug = createSlug(page.title)
+  if(page.tags && typeof page.tags === "string") {
+    page.tags = tagsToArray(page.tags)
+  }
 })
 
 

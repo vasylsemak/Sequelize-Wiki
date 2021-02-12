@@ -30,7 +30,15 @@ module.exports = (page, author) => layout(html`
       </div>
     </div>
     <div class="form-group">
-      <label for="content" class="col-sm-2 control-label">Status</label>
+      <label for="tags" class="col-sm-2 control-label">Tags: </label>
+      <div class="col-sm-10">
+        <input name="tags" type="text" class="form-control" value="${
+          page.tags.join(", ")
+        }"/>
+      </div
+    </div>
+    <div class="form-group">
+      <label for="status" class="col-sm-2 control-label">Status</label>
       <div class="col-sm-10">
         <select name="status">
           <option ${page.status == "open" ? "selected" : ""}>open</option>
@@ -41,5 +49,5 @@ module.exports = (page, author) => layout(html`
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary">submit</button>
     </div>
-  </form>
-`);
+  </form>`
+)

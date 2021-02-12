@@ -18,7 +18,6 @@ module.exports = () => layout(html`
         <input name="email" type="text" class="form-control"/>
       </div>
     </div>
-
     <div class="form-group">
       <label for="title" class="col-sm-2 control-label">Page Title</label>
       <div class="col-sm-10">
@@ -30,6 +29,12 @@ module.exports = () => layout(html`
       <div class="col-sm-10">
         <textarea name="content"></textarea>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="tags" class="col-sm-2 control-label">Tags: </label>
+      <div class="col-sm-10">
+        <input name="tags" type="text" class="form-control"/>
+      </div
     </div>
     <div class="form-group">
       <label for="status" class="col-sm-2 control-label">Status</label>
