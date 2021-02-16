@@ -5,9 +5,6 @@ module.exports = (page, author) => layout(html`
   <h3>${page.title}
       <small> (<a href="/wiki/${page.slug}/similar">Similar</a>)</small>
   </h3>
-  <ul>
-    ${page.tags.map(t => html`<li>${t}</li>`)}
-  </ul>
   <h4>by <a href="/users/${author.id}">${author.name}</a></h4>
   <hr/>
   <div class="page-body">${page.content}</div>
@@ -17,3 +14,8 @@ module.exports = (page, author) => layout(html`
     <button class="btn btn-danger" type="submit">delete this page</button>
   </form>
 `);
+
+
+  // <ul>
+  //   ${page.tags.map(t => html`<li>${t}</li>`)}
+  // </ul>

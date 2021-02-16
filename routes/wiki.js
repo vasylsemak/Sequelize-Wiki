@@ -5,6 +5,7 @@ const { Page, User, createSlug } = require('../models')
 const { addPage, wikiPage, main, editPage } = require("../views")
 
 
+// WIKI
 router
   .get('/', async(req, res, next) => {
     try {
@@ -28,21 +29,36 @@ router
   })
 
 
+// WIKI/ADD
 router.get('/add', (req, res) => {
   res.send(addPage())
 })
 
 
+// WIKI/SEARCH
+router.get('/search', async(req, res, next) => {
+  try {
+    const tag = req.query.search
+    const pages = await Page.findByTag(tag)
+
+    res.send(pages);
+  } catch(error) { next(error) }
+})
+
+
+// WIKI/:SLUG
 router
   .get('/:slug', async(req, res, next) => {
     try {
       const page = await Page.findOne({
-        where: { slug: req.params.slug }
+        where: { slug: req.params.slug },
+        include: [{ model: User, as: 'author' }]
       })
 
-      if(!page.id) return res.status(404).send('No page found with this title')
-      const pageAuthor = await page.getAuthor()
-      res.send(wikiPage(page, pageAuthor))
+      console.log('Page ===> ', page.author)
+
+      // res.json(page.author.name)
+      res.send(wikiPage(page, page.author))
     } catch(error) { next(error) }
   })
   .put('/:slug', async(req, res, next) => {
@@ -68,6 +84,7 @@ router
   })
 
 
+  // WIKI/:SLUG/EDIT
 router.get('/:slug/edit', async(req, res, next) => {
   try {
     const page = await Page.findOne({

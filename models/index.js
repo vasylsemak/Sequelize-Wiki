@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const db = new Sequelize('postgres://localhost:5432/wikistack', {
   logging: false
 })
@@ -43,7 +44,7 @@ const User = db.define('user', {
   }
 })
 
-// Service f-ns
+// Service F-ns
 function createSlug(title) {
   return title
     .replace(/\s+/g, '_')
@@ -61,6 +62,17 @@ Page.beforeValidate(page => {
     page.tags = tagsToArray(page.tags)
   }
 })
+
+
+// Class Methods
+Page.findByTag = async function(tag) {
+  const pages = await Page.findAll({
+    where: {
+      contant: { $contains: [tag] }
+    }
+  })
+  return pages
+}
 
 
 Page.belongsTo(User, { as: 'author' })
