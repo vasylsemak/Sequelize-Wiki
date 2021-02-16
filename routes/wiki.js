@@ -72,10 +72,18 @@ router
   })
   .delete('/:slug', async(req, res, next) => {
     try {
-      const rowsDeleted = await Page.destroy({
-        where: { slug: req.params.slug }
+      const page = await Page.findOne({
+        where: { slug: req.params.slug },
+        include: [{ model: User, as: 'author' }]
       })
-      res.redirect('/wiki')
+      const pagesLeft = await Page.findAll({
+        where: { authorId: page.author.id }
+      })
+
+      if(pagesLeft.length <= 1) await User.destroy({where: {id: page.author.id}})
+
+      await page.destroy()
+      res.status(204).redirect('/wiki')
     } catch(error) { next(error) }
   })
 
