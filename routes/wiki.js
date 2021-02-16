@@ -54,10 +54,6 @@ router
         where: { slug: req.params.slug },
         include: [{ model: User, as: 'author' }]
       })
-
-      console.log('Page ===> ', page.author)
-
-      // res.json(page.author.name)
       res.send(wikiPage(page, page.author))
     } catch(error) { next(error) }
   })
@@ -88,11 +84,10 @@ router
 router.get('/:slug/edit', async(req, res, next) => {
   try {
     const page = await Page.findOne({
-      where: { slug: req.params.slug }
+      where: { slug: req.params.slug },
+      include: [{ model: User, as: 'author' }]
     })
 
-    if(!page.id) return res.status(404).send('No page found with this title')
-    const pageAuthor = await page.getAuthor()
-    res.send(editPage(page, pageAuthor))
+    res.send(editPage(page, page.author))
   } catch(error) { next(error) }
 })
