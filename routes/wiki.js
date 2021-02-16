@@ -41,7 +41,7 @@ router.get('/search', async(req, res, next) => {
     const tag = req.query.search
     const pages = await Page.findByTag(tag)
 
-    res.send(pages);
+    res.send(main(pages))
   } catch(error) { next(error) }
 })
 

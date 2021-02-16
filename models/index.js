@@ -68,9 +68,12 @@ Page.beforeValidate(page => {
 Page.findByTag = async function(tag) {
   const pages = await Page.findAll({
     where: {
-      contant: { $contains: [tag] }
+      content: {
+        [Op.like]: `% ${tag} %`
+      }
     }
   })
+
   return pages
 }
 
